@@ -14,7 +14,7 @@ import client from '../../sanity';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const [featuredCategories, setFeaturedCategories] = useState([]);
+  const [featuredList, setFeaturedList] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,11 +36,9 @@ const HomeScreen = () => {
     `
       )
       .then((data) => {
-        setFeaturedCategories(data);
+        setFeaturedList(data);
       });
   }, []);
-
-  console.log('featured:', featuredCategories);
 
   return (
     <SafeAreaView className="bg-white pt-5">
@@ -78,21 +76,14 @@ const HomeScreen = () => {
         }}
       >
         <Categories></Categories>
-        <FeaturedRow
-          id="1"
-          title="Featured"
-          description="Paid placements by our partners"
-        />
-        <FeaturedRow
-          id="2"
-          title="Tasty Discounts"
-          description="Everyone's been enjoying these juicy discounts!"
-        />
-        <FeaturedRow
-          id="3"
-          title="Offers near you!"
-          description="Why not support your local restaurant tonight!"
-        />
+        {featuredList.map((featured) => (
+          <FeaturedRow
+            key={featured._id}
+            id={featured._id}
+            title={featured.name}
+            description={featured.short_description}
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );
