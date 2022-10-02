@@ -11,8 +11,14 @@ import {
   StarIcon,
 } from 'react-native-heroicons/solid';
 import { QuestionMarkCircleIcon } from 'react-native-heroicons/outline';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setRestaurant } from '../../reduxFeatures/restaurantSlice';
 
 const RestaurantScreen = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const {
     params: {
       id,
@@ -28,7 +34,23 @@ const RestaurantScreen = () => {
     },
   } = useRoute();
 
-  const navigation = useNavigation();
+  useEffect(() => {
+    dispatch(
+      setRestaurant({
+        id,
+        imgUrl,
+        title,
+        rating,
+        genre,
+        address,
+        short_description,
+        dishes,
+        lat,
+        long,
+      })
+    );
+  }, [dispatch]);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
